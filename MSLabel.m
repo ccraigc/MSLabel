@@ -68,14 +68,18 @@
     NSMutableArray *slicedString = [NSMutableArray array];
     
     while (stringsArray.count != 0) {
-        NSString *line = [NSString stringWithString:@""];
+        NSString *line = @"";
         NSMutableIndexSet *wordsToRemove = [NSMutableIndexSet indexSet];
         
         for (int i = 0; i < [stringsArray count]; i++) {
             NSString *word = [stringsArray objectAtIndex:i];
             
-            if ([[line stringByAppendingFormat:@"%@ ", word] sizeWithFont:self.font].width <= self.frame.size.width) {
-                line = [line stringByAppendingFormat:@"%@ ", word];
+            if(i == 0 && [[line stringByAppendingString:word] sizeWithFont:self.font].width <= self.frame.size.width) {
+                line = [line stringByAppendingString:word];
+                [wordsToRemove addIndex:i];
+            }
+            else if ([[line stringByAppendingFormat:@" %@", word] sizeWithFont:self.font].width <= self.frame.size.width) {
+                line = [line stringByAppendingFormat:@" %@", word];
                 [wordsToRemove addIndex:i];
             } else {
                 if (line.length == 0) {
