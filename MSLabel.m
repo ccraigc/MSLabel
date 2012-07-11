@@ -73,17 +73,14 @@
         
         for (int i = 0; i < [stringsArray count]; i++) {
             NSString *word = [stringsArray objectAtIndex:i];
+            NSString *append = (i == 0 ? word : [NSString stringWithFormat:@" %@", word]);
             
-            if(i == 0 && [[line stringByAppendingString:word] sizeWithFont:self.font].width <= self.frame.size.width) {
-                line = [line stringByAppendingString:word];
-                [wordsToRemove addIndex:i];
-            }
-            else if ([[line stringByAppendingFormat:@" %@", word] sizeWithFont:self.font].width <= self.frame.size.width) {
-                line = [line stringByAppendingFormat:@" %@", word];
+            if ([[line stringByAppendingString:append] sizeWithFont:self.font].width <= self.frame.size.width) {
+                line = [line stringByAppendingString:append];
                 [wordsToRemove addIndex:i];
             } else {
                 if (line.length == 0) {
-                    line = [line stringByAppendingFormat:@"%@ ", word];
+                    line = [line stringByAppendingString:append];
                     [wordsToRemove addIndex:i];
                 }
                 break;
